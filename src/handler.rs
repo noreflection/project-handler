@@ -1,7 +1,7 @@
 ﻿use crate::repository::Repository;
 
 pub struct Handler {
-    pub repositories: [Repository],
+    pub repositories: [Repository; 3],
 }
 
 impl Handler {
