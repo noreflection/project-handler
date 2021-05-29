@@ -8,3 +8,10 @@ edition = "2018"
 
 [dependencies]
 git2 = "0.13"
+serde = "1.0"
+serde_derive = "1.0.126"
+toml = "0.5.8"
+
+[repositories]
+github = "github_one"
+travis = "travis_one"

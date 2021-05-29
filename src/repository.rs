@@ -13,7 +13,7 @@ impl Repository {
     fn reset(&self, path: &Path) {
         let repo = match Repo::open(path) {
             Ok(repo) => repo,
-            Err(e) => panic!("Failed to open: {}", e),
+            Err(e) => panic!("failed to open: {}", e),
         };
         repo.reset(
             &repo.revparse_single("HEAD").unwrap(),
@@ -26,7 +26,7 @@ impl Repository {
     fn clone(&self) {
         let _repo = match Repo::clone(self.url, self.path) {
             Ok(repo) => repo,
-            Err(e) => panic!("failed to init: {}", e),
+            Err(e) => panic!("failed to clone: {}", e),
         };
     }
 
@@ -53,7 +53,60 @@ impl Repository {
         return Ok(index);
     }
 
-    pub fn check(&self) {
+    pub fn update(&self) { //add --force_rewrite_repos=true option(meaning it will rewrite git repos)
+        let repo_path = Path::new(self.path);
+
+        if !repo_path.exists() {
+            self.clone();
+        }
+
+        if repo_path.exists() && repo_path.is_dir() {
+            self.reset(repo_path);
+            let _idx = match self.pull(repo_path) {
+                Ok(idx) => idx,
+                Err(e) => panic!("failed to pull: {}", e),
+            };
+        }
+    }
+
+    pub fn set_to_master_branch(&self){
+        let repo = match Repo::open(self.path) {
+            Ok(repo) => repo,
+            Err(e) => panic!("failed to open: {}", e),
+        };
+
+        let refname = "master"; // or a tag (v0.1.1) or a commit (8e8128)
+        let (object, reference) 
+            = repo.revparse_ext(refname)
+            .expect("Object not found");
+
+        repo.checkout_tree(&object, None)
+            .expect("failed to checkout");
+
+        match reference {
+            // gref is an actual reference like branches or tags
+            Some(gref) => repo.set_head(gref.name().unwrap()),
+            // this is a commit, not a reference
+            None => repo.set_head_detached(object.id()),
+        }
+            .expect("failed to set HEAD");
+    }
+
+    //to impl: abstract these to scenarios
+    //will take a repo and impl these 2 functions
+    pub fn pull_latest_master(&self) {
+        let repo_path = Path::new(self.path);
+
+        if repo_path.exists() && repo_path.is_dir() {
+            self.reset(repo_path);
+            let _idx = match self.pull(repo_path) {
+                Ok(idx) => idx,
+                Err(e) => panic!("Failed to pull: {}", e),
+            };
+        }
+    }
+
+    pub fn set_to_master_branch2(&self) {
         let repo_path = Path::new(self.path);
 
         if !repo_path.exists() {
