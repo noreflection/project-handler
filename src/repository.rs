@@ -1,14 +1,12 @@
-﻿use std::fs;
-use std::fs::File;
-use std::io::{stderr, stdout, Write};
-use std::path::Path;
+﻿use std::path::Path;
 
 use git2::{Commit, Error, Index, MergeOptions, ObjectType, Repository as Repo, ResetType};
 
-pub(crate) struct Repository {
-    pub(crate) url: &'static str,
-    pub(crate) path: &'static str,
-    pub(crate) branch: &'static str,
+pub struct Repository {
+    pub name: &'static str,
+    pub url: &'static str,
+    pub path: &'static str,
+    pub branch: &'static str,
 }
 
 impl Repository {
@@ -26,7 +24,7 @@ impl Repository {
     }
 
     fn clone(&self) {
-        match Repo::clone(self.url, self.path) {
+        let _repo = match Repo::clone(self.url, self.path) {
             Ok(repo) => repo,
             Err(e) => panic!("failed to init: {}", e),
         };
@@ -60,15 +58,15 @@ impl Repository {
 
         if !repo_path.exists() {
             self.clone();
-            //return;
         }
 
         if repo_path.exists() && repo_path.is_dir() {
             self.reset(repo_path);
-            let idx = match self.pull(repo_path) {
+            let _idx = match self.pull(repo_path) {
                 Ok(idx) => idx,
                 Err(e) => panic!("Failed to pull: {}", e),
             };
         }
     }
 }
+
