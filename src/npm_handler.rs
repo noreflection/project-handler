@@ -1,7 +1,8 @@
 use crate::repository::Repository;
-use std::process;
+use std::{process, env};
 use std::process::ExitStatus;
 use std::error::Error;
+use std::path::Path;
 
 #[cfg(windows)]
 pub const NPM: &'static str = "npm.cmd";
@@ -17,8 +18,11 @@ pub struct NpmHandler {
 
 impl NpmHandler {
     pub fn npm_install(&self) -> std::io::Result<ExitStatus> { //check Repository kind: should apply only on kind:dotnet
+        let npm = Path::new("C:\\Program Files\\nodejs");
+        assert!(env::set_current_dir(&npm).is_ok());
+        
         let npm = process::Command::new(NPM)
-            .arg("-i")
+            .arg("install")
             //.arg("-g")
             //.arg("puppeteer")
             .status();

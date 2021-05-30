@@ -74,7 +74,7 @@ fn main() {
     //let status = dotnet_handler.install_puppeteer();
     print!("status:{:?}", status);
 
-    let _config = config::test_toml();//
+    //let _config = config::test_toml();//
     //let temp = config.repositories.github;
 
     //2. provide them in update_all_repos as argument in chain
