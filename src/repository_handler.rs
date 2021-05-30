@@ -1,7 +1,7 @@
 ﻿use crate::repository::Repository;
 
-pub struct RepositoryHandler { //remove late repository as state, get it as dependency
-    pub repositories: [Repository; 3],
+pub struct RepositoryHandler { //remove later repository as state, get it as dependency
+    pub repositories: Vec<Repository>,
 }
 
 impl RepositoryHandler {

@@ -6,7 +6,7 @@ pub struct Repository {
     pub name: &'static str,
     pub url: &'static str,
     pub path: &'static str,
-    pub branch: &'static str,
+    pub branch: &'static str, //extend: add kind:dotnet, npm
 }
 
 impl Repository {
