@@ -105,21 +105,5 @@ impl Repository {
             };
         }
     }
-
-    pub fn set_to_master_branch2(&self) {
-        let repo_path = Path::new(self.path);
-
-        if !repo_path.exists() {
-            self.clone();
-        }
-
-        if repo_path.exists() && repo_path.is_dir() {
-            self.reset(repo_path);
-            let _idx = match self.pull(repo_path) {
-                Ok(idx) => idx,
-                Err(e) => panic!("Failed to pull: {}", e),
-            };
-        }
-    }
 }
 

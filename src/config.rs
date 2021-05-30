@@ -1,6 +1,5 @@
 ﻿use serde_derive::Deserialize;
 use toml;
-use std::env;
 use std::fs;
 
 #[derive(Deserialize)]

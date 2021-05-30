@@ -16,4 +16,10 @@ impl RepositoryHandler {
             repo.set_to_master_branch();
         }
     }
+
+    pub fn pull_latest_master_on_all_repos(&self) {
+        for repo in self.repositories.iter() {
+            repo.pull_latest_master();
+        }
+    }
 }

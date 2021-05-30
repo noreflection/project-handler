@@ -1,4 +1,3 @@
-use crate::repository::Repository;
 use crate::repository_handler::RepositoryHandler;
 
 mod config;
@@ -35,9 +34,11 @@ fn main() {
 
     repository_handler.update_all_repos();
     repository_handler.set_all_repos_to_master_branch();
+    repository_handler.pull_latest_master_on_all_repos();
+
     
-    let config = config::test_toml();//
-    let temp = config.repositories.github;
+    let _config = config::test_toml();//
+    //let temp = config.repositories.github;
     
     //2. provide them in update_all_repos as argument in chain
     
