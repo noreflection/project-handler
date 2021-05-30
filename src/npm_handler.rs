@@ -1,6 +1,5 @@
 use crate::repository::Repository;
 use std::{process, env};
-use std::process::ExitStatus;
 use std::error::Error;
 use std::path::Path;
 
@@ -17,35 +16,28 @@ pub struct NpmHandler {
 }
 
 impl NpmHandler {
-    pub fn npm_install(&self) -> std::io::Result<ExitStatus> { //check Repository kind: should apply only on kind:dotnet
+    pub fn npm_init_with_defaults(&self) { //check Repository kind: should apply only on kind:dotnet
         let npm = Path::new("C:\\Program Files\\nodejs");
+        //let npm = Path::new("C:\\portal\\identity-service");
         assert!(env::set_current_dir(&npm).is_ok());
-        
-        let npm = process::Command::new(NPM)
-            .arg("install")
-            //.arg("-g")
-            //.arg("puppeteer")
-            .status();
-        npm
+
+        let status = process::Command::new(NPM)
+            .arg("init")
+            .arg("-y")
+            .status()
+            .expect("failed to execute npm init -y");
+        match status.code() {
+            Some(code) => println!("exited with status code: {}", code),
+            None => println!("process terminated by signal")
+        }
     }
 
-    pub fn check_for_node(&mut self) -> Result<(), Box<dyn Error>> {
-        println!("Node Version: ");
+    pub fn check_node_version(&mut self) -> Result<(), Box<dyn Error>> {
         let node = process::Command::new("node")
             .arg("-v")
             .status()?;
 
         self.node_is_installed = node.success();
-        Ok(())
-    }
-
-    pub fn install_puppeteer(&mut self) -> Result<(), Box<dyn Error>> {
-        let npm = process::Command::new("npm")
-            .arg("install")
-            //.arg("puppeteer")
-            .status()?;
-        //self.puppeteer_is_installed = npm.success();
-
         Ok(())
     }
 }
