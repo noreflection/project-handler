@@ -47,10 +47,10 @@ impl Repository {
         let last_commit = self.find_last_commit(&repo)?;
         let reference = repo.find_reference("FETCH_HEAD")?;
         let fetched_commit = reference.peel_to_commit()?;
-        let index =
-            repo.merge_commits(&last_commit, &fetched_commit, Some(&MergeOptions::new()))?;
-
-        return Ok(index);
+        let index = repo.merge_commits(&last_commit,
+                           &fetched_commit, 
+                           Some(&MergeOptions::new()))?;
+        Ok(index)
     }
 
     pub fn update(&self) { //add --force_rewrite_repos=true option(meaning it will rewrite git repos)

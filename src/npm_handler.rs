@@ -24,6 +24,7 @@ impl NpmHandler {
         let status = process::Command::new(NPM)
             .arg("init")
             .arg("-y")
+            //.current_dir("c:/Users/root/repositories/project-handler/")
             .status()
             .expect("failed to execute npm init -y");
         match status.code() {
@@ -33,8 +34,9 @@ impl NpmHandler {
     }
 
     pub fn check_node_version(&mut self) -> Result<(), Box<dyn Error>> {
-        let node = process::Command::new("node")
-            .arg("-v")
+        let node = process::Command::new("dotnet")
+            .arg("new")
+            .arg("api")
             .status()?;
 
         self.node_is_installed = node.success();

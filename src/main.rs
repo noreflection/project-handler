@@ -67,7 +67,8 @@ fn main() {
         node_is_installed: false
     };
 
-    let status = dotnet_handler.npm_init_with_defaults();
+    //let status = dotnet_handler.npm_init_with_defaults();
+    let status = dotnet_handler.check_node_version();
     print!("status:{:?}", status);
 
     //dotnet_handler.check_for_node();
