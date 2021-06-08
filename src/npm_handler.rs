@@ -18,28 +18,25 @@ pub struct NpmHandler {
 impl NpmHandler {
     pub fn npm_init_with_defaults(&self) { //check Repository kind: should apply only on kind:dotnet
         let npm = Path::new("C:\\Program Files\\nodejs");
+        //let npm = Path::new("C:\\portal\\identity-service\\newprj");
+        
         //let npm = Path::new("C:\\portal\\identity-service");
         assert!(env::set_current_dir(&npm).is_ok());
 
+        env::set_var("npm", "C:\\Program Files\\nodejs");
+
         let status = process::Command::new(NPM)
-            .arg("init")
-            .arg("-y")
-            //.current_dir("c:/Users/root/repositories/project-handler/")
+            //.env("PATH", "C:\\Program Files\\nodejs")
+            //.arg("-c")
+            //.arg("-y")
+            .arg(format!("-W {0}","C:\\portal\\identity-service\\newprj" ))
+            .arg("install")
+            //.current_dir("C:\\portal\\identity-service\\newprj")
             .status()
             .expect("failed to execute npm init -y");
         match status.code() {
             Some(code) => println!("exited with status code: {}", code),
             None => println!("process terminated by signal")
         }
-    }
-
-    pub fn check_node_version(&mut self) -> Result<(), Box<dyn Error>> {
-        let node = process::Command::new("dotnet")
-            .arg("new")
-            .arg("api")
-            .status()?;
-
-        self.node_is_installed = node.success();
-        Ok(())
     }
 }

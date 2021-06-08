@@ -1,10 +1,10 @@
 ﻿use crate::repository::Repository;
 
-pub struct RepositoryHandler { //remove later repository as state, get it as dependency
+pub struct GitHandler { //remove later repository as state, get it as dependency
     pub repositories: Vec<Repository>,
 }
 
-impl RepositoryHandler {
+impl GitHandler {
     pub fn update_all_repos(&self) {
         for repo in self.repositories.iter() {
             repo.update();

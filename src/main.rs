@@ -1,12 +1,11 @@
-use crate::repository_handler::RepositoryHandler;
+use crate::git_handler::GitHandler;
 use crate::dotnet_handler::DotnetHandler;
 use crate::npm_handler::NpmHandler;
-//use crate::dotnet_handler::DotnetHandler;
 
 mod config;
 mod repository;
 mod scenario;
-mod repository_handler;
+mod git_handler;
 mod dotnet_handler;
 mod npm_handler;
 mod args;
@@ -33,13 +32,13 @@ fn main() {
         }
     ];
     
-    let repository_handler = RepositoryHandler { //to impl: putt them all in cargo.toml
+    let git_handler = GitHandler { //to impl: putt them all in cargo.toml
         repositories
     };
 
-    repository_handler.update_all_repos();
-    repository_handler.set_all_repos_to_master_branch();
-    repository_handler.pull_latest_master_on_all_repos();
+    git_handler.update_all_repos();
+    git_handler.set_all_repos_to_master_branch();
+    git_handler.pull_latest_master_on_all_repos();
 
     let repositories = vec![  // 1. get all reps collection from config
                        repository::Repository {
@@ -62,18 +61,26 @@ fn main() {
                        }
     ];
 
-    let mut dotnet_handler = NpmHandler {
+    let mut dotnet_handler = DotnetHandler {
         repositories,
-        node_is_installed: false
     };
+    
+    // let status = dotnet_handler.create_api_project_in_folder();
+    // print!("status:{:?}", status);
+    // 
+    // let status = dotnet_handler.ef_database_update();
+    // print!("status:{:?}", status);
+    // 
+    // let status = dotnet_handler.install_ef_tools();
+    // print!("status:{:?}", status);
 
-    //let status = dotnet_handler.npm_init_with_defaults();
-    let status = dotnet_handler.check_node_version();
+    let status = dotnet_handler.run_identity_prg_in_current_dir();
+    print!("status:{:?}", status);
+    
+    let status = dotnet_handler.run_api_prg_in_current_dir();
     print!("status:{:?}", status);
 
-    //dotnet_handler.check_for_node();
-    //let status = dotnet_handler.install_puppeteer();
-    print!("status:{:?}", status);
+    
 
     //let _config = config::test_toml();//
     //let temp = config.repositories.github;
