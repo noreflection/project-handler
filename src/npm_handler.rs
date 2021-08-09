@@ -1,6 +1,6 @@
-use crate::repository::Repository;
+﻿use crate::repository::Repository;
 use std::{process, env};
-use std::error::Error;
+//use std::error::Error;
 use std::path::Path;
 
 #[cfg(windows)]
@@ -19,7 +19,7 @@ impl NpmHandler {
     pub fn npm_init_with_defaults(&self) { //check Repository kind: should apply only on kind:dotnet
         let npm = Path::new("C:\\Program Files\\nodejs");
         //let npm = Path::new("C:\\portal\\identity-service\\newprj");
-        
+
         //let npm = Path::new("C:\\portal\\identity-service");
         assert!(env::set_current_dir(&npm).is_ok());
 
